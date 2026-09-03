@@ -1,0 +1,18 @@
+pkgbase = warp-gui
+	pkgdesc = Unofficial Linux GUI (system tray + window) for the Cloudflare WARP client (warp-cli)
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = https://github.com/Sarthak-Awasthi/warp-gui
+	arch = any
+	license = MIT
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-wheel
+	makedepends = python-setuptools
+	depends = python
+	depends = python-pyqt5
+	optdepends = cloudflare-warp-bin: the official Cloudflare WARP client (required at runtime)
+	source = warp-gui-1.0.0.tar.gz::https://github.com/Sarthak-Awasthi/warp-gui/archive/refs/tags/v1.0.0.tar.gz
+	sha256sums = ddcd0a8ba7459e0a87035d4f18fec2063cf2192d838bffeafa72f94730831bf5
+
+pkgname = warp-gui

@@ -10,9 +10,7 @@ depends=('python' 'python-pyqt5')
 optdepends=('cloudflare-warp-bin: the official Cloudflare WARP client (required at runtime)')
 makedepends=('python-build' 'python-installer' 'python-wheel' 'python-setuptools')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/Sarthak-Awasthi/warp-gui/archive/refs/tags/v$pkgver.tar.gz")
-# Replace with the real checksum: `updpkgsums` (from pacman-contrib) or
-# `makepkg -g`. Left as SKIP so the recipe builds before the tag is published.
-sha256sums=('SKIP')
+sha256sums=('ddcd0a8ba7459e0a87035d4f18fec2063cf2192d838bffeafa72f94730831bf5')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
