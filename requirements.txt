@@ -1,0 +1,4 @@
+# Cloudflare WARP GUI runtime dependency.
+# On Arch/CachyOS the system package is `python-pyqt5`; on Debian/Ubuntu it is
+# `python3-pyqt5`. Only needed if it is not already installed system-wide.
+PyQt5>=5.15

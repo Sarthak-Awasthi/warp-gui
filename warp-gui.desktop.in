@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Cloudflare WARP GUI
+GenericName=WARP VPN Controller
+Comment=Register, connect and configure Cloudflare WARP without a terminal
+Exec=@EXEC@
+Icon=@ICON@
+Terminal=false
+Categories=Network;Security;Qt;
+Keywords=warp;cloudflare;vpn;dns;proxy;
+StartupNotify=false
