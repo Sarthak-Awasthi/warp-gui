@@ -24,3 +24,12 @@ env/
 
 # Generated desktop file (produced by install.sh from warp-gui.desktop.in)
 /warp-gui.desktop
+
+# Build / packaging artifacts
+/dist/
+/build/
+*.AppImage
+*.deb
+*.rpm
+*.whl
+*.tar.gz

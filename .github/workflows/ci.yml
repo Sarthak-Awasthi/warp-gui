@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pyqt5 python3-pip desktop-file-utils
+          python3 -m pip install --upgrade --break-system-packages build
+
+      - name: Compile check
+        run: python3 -m py_compile main.py warp_gui/*.py
+
+      - name: Import smoke test (offscreen Qt)
+        run: |
+          QT_QPA_PLATFORM=offscreen python3 -c "
+          from warp_gui.app import main, derive_state
+          from warp_gui.backend import WarpCli, MODES, PROTOCOLS, FAMILIES
+          from warp_gui.config import Config
+          assert derive_state('Connected') == 'connected'
+          assert derive_state('Disconnecting') == 'disconnected'
+          print('import + smoke OK')
+          "
+
+      - name: Build wheel + sdist
+        run: python3 -m build
+
+      - name: Validate desktop entry
+        run: desktop-file-validate packaging/warp-gui.desktop

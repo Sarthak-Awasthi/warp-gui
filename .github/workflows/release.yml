@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rpm ruby ruby-dev build-essential curl libfuse2 file
+          sudo gem install --no-document fpm
+          python3 -m pip install --upgrade --break-system-packages build
+
+      - name: Build wheel + sdist
+        run: python3 -m build
+
+      - name: Build .deb and .rpm
+        run: bash packaging/build-deb-rpm.sh all
+
+      - name: Build AppImage
+        run: bash packaging/build-appimage.sh
+        env:
+          PYVER: "3.12"
+          ARCH: x86_64
+
+      - name: List artifacts
+        run: ls -l dist/
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: warp-gui-packages
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+            dist/*.deb
+            dist/*.rpm
+            dist/*.AppImage
+
+      - name: Publish to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
+            dist/*.deb
+            dist/*.rpm
+            dist/*.AppImage

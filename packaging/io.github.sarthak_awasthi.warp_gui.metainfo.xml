@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Sarthak-Awasthi -->
+<component type="desktop-application">
+  <id>io.github.sarthak_awasthi.warp_gui</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+
+  <name>Cloudflare WARP GUI</name>
+  <summary>Control the Cloudflare WARP client from your desktop</summary>
+
+  <description>
+    <p>
+      warp-gui is an unofficial, independent graphical front-end for the
+      Cloudflare WARP command-line client (warp-cli) on Linux. It provides a
+      window and a system-tray icon so you can use WARP without a terminal.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>One-click connect and disconnect with a live status indicator</li>
+      <li>Choose the operating mode, tunnel protocol and DNS family filter</li>
+      <li>Register or remove a device</li>
+      <li>Save and re-apply setting profiles</li>
+      <li>Verify that traffic really goes through WARP</li>
+    </ul>
+    <p>
+      warp-gui is not affiliated with or endorsed by Cloudflare, Inc. and does
+      not bundle any Cloudflare software; it requires the official WARP client
+      to be installed separately.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">warp-gui.desktop</launchable>
+
+  <url type="homepage">https://github.com/Sarthak-Awasthi/warp-gui</url>
+  <url type="bugtracker">https://github.com/Sarthak-Awasthi/warp-gui/issues</url>
+
+  <provides>
+    <binary>warp-gui</binary>
+  </provides>
+
+  <categories>
+    <category>Network</category>
+    <category>Security</category>
+  </categories>
+
+  <content_rating type="oars-1.1" />
+
+  <releases>
+    <release version="1.0.0" date="2026-09-03">
+      <description>
+        <p>Initial release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

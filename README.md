@@ -86,22 +86,73 @@ back at them, so keep the folder in place (or re-run `install.sh` if you move it
 
 ```
 warp-gui/
-├── main.py                 # entry point
+├── main.py                 # entry point (run from source)
 ├── warp-gui                # bash launcher (resolves symlinks)
 ├── install.sh              # per-user install / uninstall
-├── warp-gui.desktop.in     # desktop-entry template
+├── warp-gui.desktop.in     # desktop-entry template (for install.sh)
+├── pyproject.toml          # package metadata + entry point + data files
+├── Makefile                # build/packaging shortcuts
 ├── requirements.txt
-├── assets/
-│   └── warp-gui.svg        # app icon
+├── assets/                 # app icons (svg + png)
+├── packaging/
+│   ├── warp-gui.desktop    # desktop entry (installed by packages)
+│   ├── *.metainfo.xml      # AppStream metadata
+│   ├── aur/PKGBUILD        # Arch / AUR recipe
+│   ├── build-deb-rpm.sh    # .deb / .rpm via fpm
+│   └── build-appimage.sh   # self-contained AppImage
+├── .github/workflows/      # ci.yml (tests) + release.yml (build packages)
 └── warp_gui/
     ├── backend.py          # warp-cli wrapper (no Qt) — parses JSON output
     ├── worker.py           # runs warp-cli off the UI thread
     ├── icons.py            # state icons drawn at runtime
     ├── config.py           # persisted family value + saved profiles
+    ├── __main__.py         # `python -m warp_gui`
     └── app.py              # main window + system tray
 ```
 
 `backend.py` is Qt-free and can be imported and tested on its own.
+
+## Installing a prebuilt package
+
+Prebuilt packages are attached to each [GitHub Release](https://github.com/Sarthak-Awasthi/warp-gui/releases):
+
+- **AppImage** (any distro): download `warp-gui-*.AppImage`, `chmod +x` it, and
+  run it. It bundles Python + Qt, so it only needs the official `warp-cli`
+  installed on your system.
+- **Debian/Ubuntu:** `sudo apt install ./warp-gui_*_all.deb`
+- **Fedora/openSUSE:** `sudo dnf install ./warp-gui-*.noarch.rpm`
+- **Arch/CachyOS (AUR):** build from `packaging/aur/PKGBUILD` (`makepkg -si`), or
+  once published, install `warp-gui` with your AUR helper.
+
+The `.deb`/`.rpm`/AUR packages depend on your distro's system PyQt5; the AppImage
+is fully self-contained. None of them bundle Cloudflare software — you still
+install the official WARP client yourself.
+
+## Building packages yourself
+
+All packaging lives in `packaging/` and is driven by `pyproject.toml`. A
+`Makefile` wraps the common targets:
+
+```bash
+make wheel      # Python wheel + sdist          -> dist/
+make deb        # .deb via fpm                   -> dist/
+make rpm        # .rpm via fpm                   -> dist/
+make appimage   # self-contained .AppImage       -> dist/
+make packages   # deb + rpm + appimage
+```
+
+- **wheel** needs `python3 -m build`.
+- **deb/rpm** need [`fpm`](https://fpm.readthedocs.io/) (and `rpm` for the rpm
+  target). They install the app to `/usr/share/warp-gui` with a
+  version-independent `/usr/bin/warp-gui` launcher, so they work with any
+  `python3` the distro ships.
+- **appimage** needs `curl` + network access; it downloads a relocatable Python
+  base and `appimagetool`, bundles the app and PyQt5, and repacks.
+
+CI builds all of these automatically: pushing a `v*` tag runs
+`.github/workflows/release.yml`, which attaches the `.deb`, `.rpm`, `.AppImage`,
+and wheel to a GitHub Release. `.github/workflows/ci.yml` runs a compile + import
+smoke test and a wheel build on every push and PR.
 
 ## Notes & troubleshooting
 
