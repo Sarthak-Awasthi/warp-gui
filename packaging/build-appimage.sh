@@ -52,15 +52,18 @@ echo ">> Installing warp-gui (+ PyQt5) into the AppDir's Python"
   "$DIST"/warp_gui-"$VERSION"-*.whl
 
 echo ">> Installing AppRun / desktop / icon"
-# Remove the base image's Python launcher metadata.
-rm -f "$APPDIR"/*.desktop "$APPDIR"/*.png "$APPDIR"/.DirIcon 2>/dev/null || true
+# The base image ships AppRun (and its .desktop/.png/.DirIcon) as SYMLINKS.
+# Delete them first — otherwise `cat > AppRun` writes THROUGH the symlink into
+# its target (the bundled python) and leaves the link in place.
+rm -f "$APPDIR/AppRun" "$APPDIR"/*.desktop "$APPDIR"/*.png "$APPDIR"/.DirIcon 2>/dev/null || true
 
 cat > "$APPDIR/AppRun" <<'APPRUN'
 #!/bin/bash
-HERE="$(dirname "$(readlink -f "${0}")")"
+# $APPDIR is set by the AppImage runtime; fall back to this script's real dir.
+HERE="${APPDIR:-$(dirname "$(readlink -f "${0}")")}"
 export APPDIR="$HERE"
 PY="$(ls "$HERE"/opt/python*/bin/python[0-9]*.[0-9]* 2>/dev/null | head -1)"
-[ -z "$PY" ] && PY="$HERE/usr/bin/python3"
+[ -z "$PY" ] && PY="$(ls "$HERE"/usr/bin/python[0-9]*.[0-9]* 2>/dev/null | head -1)"
 exec "$PY" -m warp_gui "$@"
 APPRUN
 chmod +x "$APPDIR/AppRun"
