@@ -4,13 +4,36 @@ A lightweight **PyQt5** desktop front-end for `warp-cli` (the Cloudflare WARP
 client for Linux). Register a device, pick your mode, and connect/disconnect —
 all without touching a terminal. Lives in the system tray so it's one click away.
 
-![states: connected / connecting / disconnected](assets/warp-gui.svg)
+[![CI](https://github.com/Sarthak-Awasthi/warp-gui/actions/workflows/ci.yml/badge.svg)](https://github.com/Sarthak-Awasthi/warp-gui/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Sarthak-Awasthi/warp-gui)](https://github.com/Sarthak-Awasthi/warp-gui/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Platform: Linux](https://img.shields.io/badge/platform-Linux-1793D1?logo=linux&logoColor=white)
+![Python 3](https://img.shields.io/badge/python-3-3776AB?logo=python&logoColor=white)
+
+<p align="center">
+  <img src="docs/screenshot.png" alt="warp-gui main window" width="440">
+</p>
 
 > **Unofficial project.** warp-gui is an independent, community-built GUI. It is
 > **not** affiliated with or endorsed by Cloudflare, Inc., and bundles none of
 > Cloudflare's software — it only controls the official `warp-cli` you install
 > yourself. "Cloudflare" and "WARP" are trademarks of Cloudflare, Inc., used
 > here nominatively. See [DISCLAIMER.md](DISCLAIMER.md).
+
+## Install in 30 seconds (AppImage)
+
+```bash
+# Download the latest AppImage, make it executable, and run it
+curl -L -o warp-gui.AppImage \
+  https://github.com/Sarthak-Awasthi/warp-gui/releases/latest/download/warp-gui-1.0.0-x86_64.AppImage
+chmod +x warp-gui.AppImage
+./warp-gui.AppImage
+```
+
+It bundles Python + Qt, so it runs on any distro — you only need the official
+`warp-cli` installed. Prefer a native package? See
+[Installing a prebuilt package](#installing-a-prebuilt-package) for `.deb`,
+`.rpm`, and AUR.
 
 ## Features
 
@@ -174,9 +197,27 @@ smoke test and a wheel build on every push and PR.
   fix is a quick **Disconnect → Connect**. If you prefer, change these settings
   while disconnected.
 
+## Roadmap / help wanted
+
+Ideas for where warp-gui could go next — contributions very welcome. Comment on
+(or open) the matching issue if you'd like to take one:
+
+- **Packaging:** publish to the AUR, Flatpak/Flathub, and `arm64` builds
+- **Connection stats** — show throughput / handshake info from `warp-cli tunnel stats`
+- **Per-profile tray entries** — apply a saved profile straight from the tray menu
+- **Autostart toggle** in the UI (not just `install.sh --autostart`)
+- **Trusted-network management** UI (`warp-cli trusted`)
+- **Translations / i18n**
+- **Light/dark theme polish** and an app-wide accent
+
+Good first issues are labelled
+[`good first issue`](https://github.com/Sarthak-Awasthi/warp-gui/labels/good%20first%20issue).
+
 ## Contributing
 
 Bug reports and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+New here? The [`good first issue`](https://github.com/Sarthak-Awasthi/warp-gui/labels/good%20first%20issue)
+label marks small, self-contained tasks to start with.
 
 ## License
 

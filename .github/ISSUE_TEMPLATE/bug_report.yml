@@ -1,0 +1,57 @@
+name: Bug report
+description: Something isn't working right
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill in the details
+        below so it can be reproduced.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+      placeholder: I clicked … and expected … but …
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open warp-gui
+        2. Click …
+        3. …
+    validations:
+      required: false
+  - type: input
+    id: distro
+    attributes:
+      label: Distro & desktop environment
+      placeholder: "e.g. Fedora 41, GNOME (Wayland) / Arch, KDE Plasma (Wayland)"
+    validations:
+      required: true
+  - type: input
+    id: install-method
+    attributes:
+      label: How did you install warp-gui?
+      placeholder: "AppImage / .deb / .rpm / AUR / from source"
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: Output of `warp-cli --version` and, if from source, your PyQt5 version.
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Terminal output
+      description: If it crashed, run it from a terminal (`warp-gui` or `python3 main.py`) and paste any output.
+      render: shell
+    validations:
+      required: false
